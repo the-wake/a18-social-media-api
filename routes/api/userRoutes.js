@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const {
-  // getComments,
+  getUsers,
   // getSingleComment,
-  // createComment,
+  // createUser,
 } = require('../../controllers/userController');
 
 // /api/comments
-// router.route('/').get(getComments).post(createComment);
+router.route('/').get(getUsers)//.post(createUser);
 
 // /api/comments/:commentId
 // router.route('/:commentId').get(getSingleComment);

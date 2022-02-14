@@ -1,19 +1,36 @@
 const { User } = require('../models');
 
+async function getUsers(req, res) {
+  try {
+    const users = await User.find();
+    !users
+    ? res.status(404).json({ message: 'No users found in database' })
+    : console.table(users)
+    res.status(200).json(users);
+  }
+
+  catch (err) {
+    res.status(500).json(err);
+  }
+}
+
 module.exports = {
-  getUsers(req, res) {
-    try {
-      const users = User.findAll({})
-      res.status(200).json(users);
-    }
-    
-    catch (err) {
-      res.stats(500).json(err);
-    }
-  },
+  getUsers
 }
 
 
+
+// async getUsers(req, res) {
+//   try {
+//     const users = await User.find({});
+//     console.table(users);
+//     res.status(200).json(users);
+//   }
+  
+//   catch (err) {
+//     res.status(500).json(err);
+//   }
+// },
 
 
 //   getComments(req, res) {
