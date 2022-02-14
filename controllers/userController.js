@@ -1,6 +1,21 @@
-// const { Post, Comment } = require('../models');
+const { User } = require('../models');
 
-// module.exports = {
+module.exports = {
+  getUsers(req, res) {
+    try {
+      const users = User.findAll({})
+      res.status(200).json(users);
+    }
+    
+    catch (err) {
+      res.stats(500).json(err);
+    }
+  },
+}
+
+
+
+
 //   getComments(req, res) {
 //     Comment.find()
 //       .then((comment) => res.json(comment))

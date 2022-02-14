@@ -4,12 +4,15 @@ const thoughtSchema = new mongoose.Schema({
   thoughtText: {
     type: String,
     min: [1, 'Please enter at least one character'],
-    max: [280, 'Maximum length exceeded. ({VALUE} characters vs. maximum 280.'],
+    max: [280, 'Maximum length exceeded. ({VALUE} characters vs. maximum 280.)'],
     required: true
   },
-  username: [{ type: mongoose.Schema.Types.ObjectId, ref: 'thought' }],
-  createdAt: 'created_at', // I think this should work. Also, use getter to format timestamp on query.
-  restrictions: [userSchema],
+  username: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  reactions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reaction' }],
 },
   {
     toJSON: {
@@ -20,8 +23,8 @@ const thoughtSchema = new mongoose.Schema({
 
 const Thought = mongoose.model('Thought', thoughtSchema);
 
-postSchema.virtual('friendCount').get(() => {
-  return this.friends.length;
+thoughtSchema.virtual('reactionCount').get(() => {
+  return this.reactions.length;
 });
 
 module.exports = Thought;
