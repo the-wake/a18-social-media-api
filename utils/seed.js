@@ -13,10 +13,21 @@ connection.once('open', async () => {
   await Thought.deleteMany({});
 
   // Create empty array to hold the students
-  const users = [];
+  const users = [
+    { name: 'Renee Santiago', email: 'reantiago@runner.net', friends: []},
+    { name: 'Rei', email: 'sassybitch@runner.net', friends: []},
+  ];
 
-  // Get some random assignment objects using a helper function that we imported from ./data
-  const thoughts = [];
+  await User.collection.insertMany(users);
+  
+  const thoughts = [
+    { thoughtText: 'Felt cute, might rob a bank later.', userId: users[1]._id },
+    { thoughtText: 'A Runner is never truly alone.', userId: users[0]._id },
+  ];
+  
+  await Thought.collection.insertMany(thoughts);
+
+
 
   // Log out the seed data to indicate what should appear in the database
   console.table(users);

@@ -7,7 +7,7 @@ const thoughtSchema = new mongoose.Schema({
     max: [280, 'Maximum length exceeded. ({VALUE} characters vs. maximum 280.)'],
     required: true
   },
-  username: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  userId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -21,10 +21,10 @@ const thoughtSchema = new mongoose.Schema({
     id: false,
   });
 
-const Thought = mongoose.model('Thought', thoughtSchema);
-
-thoughtSchema.virtual('reactionCount').get(() => {
+thoughtSchema.virtual('reactionCount').get(function() {
   return this.reactions.length;
 });
+
+const Thought = mongoose.model('Thought', thoughtSchema);
 
 module.exports = Thought;

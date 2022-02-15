@@ -5,10 +5,10 @@ const {
   addUser,
 } = require('../../controllers/userController');
 
-// /api/comments
+// /api/users
 router.route('/').get(getUsers).post(addUser);
 
-// /api/comments/:commentId
+// /api/users/:userId
 router.route('/:userId').get(getUser);
 
 module.exports = router;
