@@ -31,7 +31,7 @@ async function addThought(req, res) {
   try {
     const newThought = await Thought.create(req.body)
     console.log(newThought);
-    res.status(200).json(`Thought posted: "${newThought.text}".`);
+    res.status(200).json(`Thought posted: "${newThought.thoughtText}".`);
   }
 
   catch (err) {
