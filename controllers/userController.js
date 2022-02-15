@@ -2,20 +2,49 @@ const { User } = require('../models');
 
 async function getUsers(req, res) {
   try {
-    const users = await User.find();
-    !users
-    ? res.status(404).json({ message: 'No users found in database' })
-    : console.table(users)
-    res.status(200).json(users);
+    const usersData = await User.find();
+    !usersData
+    ? res.status(404).json('No users found in database.')
+    : console.log(usersData)
+    res.status(200).json(usersData);
   }
 
   catch (err) {
     res.status(500).json(err);
   }
-}
+};
+
+async function getUser(req, res) {
+  try {
+    const userData = await User.findOne({ _id: req.params.userId })
+      !userData
+      ? res.status(404).json('No user with that ID found.')
+      : res.status(200).json(userData);
+    }
+
+  catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+async function addUser(req, res) {
+  try {
+    const user = await User.create(req.body)
+    console.log(user);
+    res.status(200).json(`User created: ${user.name} - ${user.email}`);
+  }
+
+  catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+
 
 module.exports = {
-  getUsers
+  getUsers,
+  getUser,
+  addUser,
 }
 
 

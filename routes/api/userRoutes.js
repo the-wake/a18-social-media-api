@@ -1,14 +1,14 @@
 const router = require('express').Router();
 const {
   getUsers,
-  // getSingleComment,
-  // createUser,
+  getUser,
+  addUser,
 } = require('../../controllers/userController');
 
 // /api/comments
-router.route('/').get(getUsers)//.post(createUser);
+router.route('/').get(getUsers).post(addUser);
 
 // /api/comments/:commentId
-// router.route('/:commentId').get(getSingleComment);
+router.route('/:userId').get(getUser);
 
 module.exports = router;
