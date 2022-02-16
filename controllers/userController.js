@@ -4,8 +4,8 @@ async function getUsers(req, res) {
   try {
     const usersData = await User.find();
     !usersData
-    ? res.status(404).json('No users found in database.')
-    : console.log(usersData)
+      ? res.status(404).json('No users found in database.')
+      : console.log(usersData)
     res.status(200).json(usersData);
   }
 
@@ -17,10 +17,10 @@ async function getUsers(req, res) {
 async function getUser(req, res) {
   try {
     const userData = await User.findOne({ _id: req.params.userId })
-      !userData
+    !userData
       ? res.status(404).json('No user with that ID found.')
       : res.status(200).json(userData);
-    }
+  }
 
   catch (err) {
     res.status(500).json(err);
@@ -45,10 +45,74 @@ async function updateUser(req, res) {
       { _id: req.params.userId },
       req.body)
 
-      !userData
+    !userData
       ? res.status(404).json('No user with that ID found.')
-      : res.status(200).json(`Updated user ID ${userData._id}.`);   
+      : res.status(200).json(`Updated user ID ${userData._id}.`);
   }
+ 
+  catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+async function deleteUser(req, res) {
+  try {
+    const userData = await User.findOneAndDelete({ _id: req.params.userId })
+
+    !userData
+      ? res.status(404).json('No user with that ID found.')
+      : res.status(200).json(`Deleted user ID ${userData._id}.`);
+  }
+
+  catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+async function addFriend(req, res) {
+  try {
+    const userData = await User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } }
+    )
+
+    const friendData = await User.findOneAndUpdate(
+      { _id: req.params.friendId },
+      { $addToSet: { friends: req.params.userId } }
+    )
+
+    // Getting different errors depending on if the string length of _id is correct or not.
+    !userData
+      ? res.status(404).json('Giver of affection not found.')
+      : !friendData
+        ? res.status(404).json('Receiver of affection not found.')
+        : res.status(200).json(`Affection received!`);
+  }
+  
+  catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+async function endShip(req, res) {
+  try {
+    const userData = await User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.params.friendId } }
+    )
+
+    const friendData = await User.findOneAndUpdate(
+      { _id: req.params.friendId },
+      { $pull: { friends: req.params.userId } }
+    )
+
+    !userData
+      ? res.status(404).json('Rejector of affection not found.')
+      : !friendData
+        ? res.status(404).json('Receiver of rejection not found.')
+        : res.status(200).json(`Affection rejected!`);
+  }
+
   catch (err) {
     res.status(500).json(err);
   }
@@ -60,43 +124,7 @@ module.exports = {
   getUser,
   addUser,
   updateUser,
+  deleteUser,
+  addFriend,
+  endShip,
 }
-
-
-//   getComments(req, res) {
-//     Comment.find()
-//       .then((comment) => res.json(comment))
-//       .catch((err) => res.status(500).json(err));
-//   },
-//   // Get a single comment
-//   getSingleComment(req, res) {
-//     Comment.findOne({ _id: req.params.commentId })
-//       .then((comment) =>
-//         !comment
-//           ? res.status(404).json({ message: 'No comment found with that id' })
-//           : res.json(comment)
-//       )
-//       .catch((err) => res.status(500).json(err));
-//   },
-//   // Create a comment
-//   createComment(req, res) {
-//     Comment.create(req.body)
-//       .then((comment) => {
-//         return Post.findOneAndUpdate(
-//           { _id: req.body.postId },
-//           { $push: { comments: comment._id } },
-//           { new: true }
-//         );
-//       })
-//       .then((post) =>
-//         !post
-//           ? res
-//               .status(404)
-//               .json({ message: 'comment created, but no posts with this ID' })
-//           : res.json({ message: 'comment created' })
-//       )
-//       .catch((err) => {
-//         console.error(err);
-//       });
-//   },
-// };

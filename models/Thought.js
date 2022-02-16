@@ -7,7 +7,7 @@ const thoughtSchema = new mongoose.Schema({
     max: [280, 'Maximum length exceeded. ({VALUE} characters vs. maximum 280.)'],
     required: true
   },
-  userId: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   createdAt: {
     type: Date,
     default: Date.now(),
