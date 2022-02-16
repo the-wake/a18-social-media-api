@@ -3,11 +3,10 @@ const { Thought, User } = require('../models');
 async function getThoughts(req, res) {
   try {
     const thoughtData = await Thought.find()
-    .populate('userId', 'name');
+      .populate('userId', 'name')
     !thoughtData
       ? res.status(404).json('No thoughts found in database.')
-      : console.log(thoughtData)
-    res.status(200).json(thoughtData);
+      : res.status(200).json(thoughtData);
   }
 
   catch (err) {
@@ -18,7 +17,7 @@ async function getThoughts(req, res) {
 async function getThought(req, res) {
   try {
     const thoughtData = await Thought.findById(req.params.thoughtId)
-    .populate('userId', 'name');
+      .populate('userId', 'name');
 
     !thoughtData
       ? res.status(404).json('No thought with that ID found.')
@@ -26,7 +25,6 @@ async function getThought(req, res) {
   }
 
   catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 };
@@ -40,8 +38,7 @@ async function addThought(req, res) {
 
     !userData
       ? res.status(404).json('No user with that ID found.')
-      : res.status(200).json(`Thought posted: ${newThought.thoughtText}`),
-      console.log(newThought);
+      : res.status(200).json(`Thought posted: ${newThought.thoughtText}`)
   }
 
   catch (err) {
@@ -52,11 +49,10 @@ async function addThought(req, res) {
 async function updateThought(req, res) {
   try {
     const thoughtData = await Thought.findByIdAndUpdate(req.params.thoughtId, req.body)
-    
+
     !thoughtData
-    ? res.status(404).json('No thought with that ID found.')
-    : res.status(200).json(`Thought updated: ${req.body.thoughtText}`),
-    console.log(thoughtData);
+      ? res.status(404).json('No thought with that ID found.')
+      : res.status(200).json(`Thought updated: ${req.body.thoughtText}`)
   }
 
   catch (err) {
@@ -66,19 +62,49 @@ async function updateThought(req, res) {
 
 async function deleteThought(req, res) {
   try {
-    const deletedThought = await Thought.findByIdAndDelete(req.params.thoughtId)
-    
-    !deletedThought
-    ? res.status(404).json('No thought with that ID found.')
-    : res.status(200).json(`Deleted thought ${req.params.thoughtId}`),
-    console.log(deletedThought);
+    const removedThought = await Thought.findByIdAndDelete(req.params.thoughtId)
+
+    !removedThought
+      ? res.status(404).json('No thought with that ID found.')
+      : res.status(200).json(`Deleted thought ${req.params.thoughtId}`)
+  }
+
+  catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+async function addReaction(req, res) {
+  try {
+    const newReaction = await Thought.findByIdAndUpdate(req.params.thoughtId,
+      { $addToSet: { reactions: req.body } });
+
+    !newReaction
+      ? res.status(404).json('No thought with that ID found.')
+      : res.status(200).json(`Added reaction: ${req.body}`)
   }
 
   catch (err) {
     console.log(err);
     res.status(500).json(err);
   }
-}
+};
+
+async function deleteReaction(req, res) {
+  try {
+    const removedReaction = await Thought.findByIdAndUpdate(req.params.thoughtId,
+      // Not quite getting there because reactionId isn't populating.
+      { $pull: { reactions: { reactionId: req.params.reactionId } } });
+
+    !removedReaction
+      ? res.status(404).json('No thought/reaction combination with those IDs found.')
+      : res.status(200).json(`Deleted reaction ${req.params.reactionId}`)
+  }
+
+  catch (err) {
+    res.status(500).json(err);
+  }
+};
 
 
 module.exports = {
@@ -87,4 +113,6 @@ module.exports = {
   addThought,
   updateThought,
   deleteThought,
+  addReaction,
+  deleteReaction,
 }

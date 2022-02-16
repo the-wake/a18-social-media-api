@@ -1,18 +1,20 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
+const Reaction = require('./Reaction.js')
 
-const thoughtSchema = new mongoose.Schema({
+const thoughtSchema = new Schema({
   thoughtText: {
     type: String,
     min: [1, 'Please enter at least one character'],
     max: [280, 'Maximum length exceeded. ({VALUE} characters vs. maximum 280.)'],
     required: true
   },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
   createdAt: {
     type: Date,
     default: Date.now(),
   },
-  reactions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reaction' }],
+  // Why the hell does this work?
+  reactions: [Reaction],
 },
   {
     toJSON: {
@@ -25,6 +27,6 @@ thoughtSchema.virtual('reactionCount').get(function() {
   return this.reactions?.length;
 });
 
-const Thought = mongoose.model('Thought', thoughtSchema);
+const Thought = model('Thought', thoughtSchema);
 
 module.exports = Thought;
