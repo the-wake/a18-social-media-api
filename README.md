@@ -22,7 +22,7 @@ npm run seed
 
 Note that as there is no front-end to this application, it won't run via browser.
 
-<!-- ![Demonstration screenshot](/assets/Demo-Screenshot.png) -->
+![Demonstration screenshot](/assets/Demo-Screenshot.png)
 
 ## Tutorial Videos
 
