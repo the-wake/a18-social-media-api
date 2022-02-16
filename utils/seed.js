@@ -15,7 +15,7 @@ connection.once('open', async () => {
   // Create empty array to hold the students
   const users = [
     { name: 'Renee Santiago', email: 'reantiago@runner.net', friends: []},
-    { name: 'Rei', email: 'sassybitch@runner.net', friends: []},
+    { name: 'Rei', email: 'sassylass@runner.net', friends: []},
   ];
 
   await User.collection.insertMany(users);

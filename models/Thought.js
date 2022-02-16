@@ -13,7 +13,6 @@ const thoughtSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
-  // Why the hell does this work?
   reactions: [Reaction],
 },
   {
