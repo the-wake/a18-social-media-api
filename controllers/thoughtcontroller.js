@@ -2,7 +2,8 @@ const { Thought, User } = require('../models');
 
 async function getThoughts(req, res) {
   try {
-    const thoughtData = await Thought.find();
+    const thoughtData = await Thought.find()
+    .populate('userId', 'name');
     !thoughtData
       ? res.status(404).json('No thoughts found in database.')
       : console.log(thoughtData)
@@ -17,12 +18,15 @@ async function getThoughts(req, res) {
 async function getThought(req, res) {
   try {
     const thoughtData = await Thought.findById(req.params.thoughtId)
+    .populate('userId', 'name');
+
     !thoughtData
       ? res.status(404).json('No thought with that ID found.')
       : res.status(200).json(thoughtData);
   }
 
   catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 };

@@ -1,11 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-// Could store the regex as a variable, or put it in a helper, depending on how we want to use it.
-// Also may want to add a unique validator since the unique field value isn't a validation. A few options at:
-// https://www.npmjs.com/package/mongoose-unique-validator
-
-// Alternatively, we may be able to do that with an await on our user constructor, using a second User.init() function to try + await User.create, which will catch the error if the address is already in use.
-
 const userSchema = new Schema({
   name: { type: String, trimmed: true, unique: true, required: true },
   email: {
@@ -16,7 +10,6 @@ const userSchema = new Schema({
     match: [/^([\w\.-]+)@([\w\.-]+)\.([a-zA-Z0-9\.]{2,6})$/, 'Please enter a valid email address.']
   },
   thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
-  // friends: [userSchema],
   friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   {
@@ -28,7 +21,7 @@ const userSchema = new Schema({
 
 userSchema.virtual('friendCount').get(function() {
   console.log(this);
-  return this.friends.length;
+  return this.friends?.length;
 });
 
 const User = model('User', userSchema);
