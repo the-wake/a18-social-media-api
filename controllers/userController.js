@@ -17,6 +17,8 @@ async function getUsers(req, res) {
 async function getUser(req, res) {
   try {
     const userData = await User.findOne({ _id: req.params.userId })
+    // .populate('thoughts');
+
     !userData
       ? res.status(404).json('No user with that ID found.')
       : res.status(200).json(userData);
@@ -49,7 +51,7 @@ async function updateUser(req, res) {
       ? res.status(404).json('No user with that ID found.')
       : res.status(200).json(`Updated user ID ${userData._id}.`);
   }
- 
+
   catch (err) {
     res.status(500).json(err);
   }
@@ -88,7 +90,7 @@ async function addFriend(req, res) {
         ? res.status(404).json('Receiver of affection not found.')
         : res.status(200).json(`Affection received!`);
   }
-  
+
   catch (err) {
     res.status(500).json(err);
   }
