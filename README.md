@@ -24,6 +24,14 @@ Note that as there is no front-end to this application, it won't run via browser
 
 <!-- ![Demonstration screenshot](/assets/Demo-Screenshot.png) -->
 
+## Tutorial Videos
+
+<!--  -->
+
+<!--  -->
+
+<!--  -->
+
 ## Usage
 From the terminal, users can run node on server.js to start the local server. From there, queries can be run via Insomnia.
 
@@ -72,7 +80,5 @@ We use arrays and the .populate() function to create associations, so that the r
 * Coded in VS Code
 
 ## Future Functionality
-* The security could definitely be imporved, even with the few features I added to prevent easy manipulation of others' posts.
-* On that note, more robust account creation features would be an easy target for early improvements.
-* Comments could become editable.
-* A search feature could be implemented.
+* We could add a login functionality to make sure thoughts and users can't be deleted by other users.
+* We could do a lot to make the data gathered, and the user inputs functions, more robust.
