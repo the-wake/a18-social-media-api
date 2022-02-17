@@ -63,7 +63,7 @@ Thoughts are text strings posted by users and associated with their account. Use
 * **DELETE /api/thoughts/:thoughtId/reactions/reactionId** - Delete a reaction from a thought.
 
 ### Associations
-We use arrays and the .populate() function to create associations, so that the relevant information is rendered between associated fields.
+We use arrays and the .populate() function to create associations, so that the relevant information is rendered between associated fields. Reactions don't have a Model (just a Schema), so they don't need to be populated into our Thought renders since each Reaction is pushed directly into the Reactions array of its associated Thought.
 
 ## Tools Used
 * JavaScript
