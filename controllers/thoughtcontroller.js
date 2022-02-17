@@ -62,7 +62,7 @@ async function updateThought(req, res) {
 
 async function deleteThought(req, res) {
   try {
-    const removedThought = await Thought.findByIdAndDelete(req.params.thoughtId)
+    const removedThought = await Thought.findByIdAndDelete(req.params.thoughtId);
 
     !removedThought
       ? res.status(404).json('No thought with that ID found.')

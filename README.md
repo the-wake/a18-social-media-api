@@ -26,17 +26,15 @@ Note that as there is no front-end to this application, it won't run via browser
 
 ## Tutorial Videos
 
-<!--  -->
 
-<!--  -->
-
-<!--  -->
 
 ## Usage
 From the terminal, users can run node on server.js to start the local server. From there, queries can be run via Insomnia.
 
 ## Functionality
 The application uses two primary and one secondary model: Users, Thoughts, and Reactions.
+
+On top of standard values and defaults like Mongoose's _id, we run a Moment helper to format dates, and data validation on user data. This ensures that no two users share the same name, and uses regex to identify and reject email addresses that don't fit standard email format.
 
 ### Users
 User accounts are identified with Mongoose's _id field and tied to unique email addresses. They can be created, updated, and deleted, and have fields for Thoughts and Friends (other user accounts).
@@ -70,6 +68,7 @@ We use arrays and the .populate() function to create associations, so that the r
 * Express.js
 * Node.js
 * NPM
+* Moment
 * nodemon
 * MongoDB
 * Mongoose
