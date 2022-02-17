@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 async function getUsers(req, res) {
   try {
@@ -8,12 +8,10 @@ async function getUsers(req, res) {
 
     !usersData
       ? res.status(404).json('No users found in database.')
-      : console.log(usersData)
-    res.status(200).json(usersData);
+      : res.status(200).json(usersData);
   }
 
   catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 };
@@ -37,7 +35,6 @@ async function getUser(req, res) {
 async function addUser(req, res) {
   try {
     const userData = await User.create(req.body)
-    console.log(userData);
     res.status(200).json(`User created: ${userData.name} - ${userData.email}`);
   }
 
@@ -65,6 +62,7 @@ async function updateUser(req, res) {
 async function deleteUser(req, res) {
   try {
     const userData = await User.findOneAndDelete({ _id: req.params.userId })
+    const thoughtData = await Thought.deleteMany({ userId: req.params.userId})
 
     !userData
       ? res.status(404).json('No user with that ID found.')
@@ -88,7 +86,6 @@ async function addFriend(req, res) {
       { $addToSet: { friends: req.params.userId } }
     )
 
-    // Getting different errors depending on if the string length of _id is correct or not.
     !userData
       ? res.status(404).json('Giver of affection not found.')
       : !friendData

@@ -81,11 +81,10 @@ async function addReaction(req, res) {
 
     !newReaction
       ? res.status(404).json('No thought with that ID found.')
-      : res.status(200).json(`Added reaction: ${req.body}`)
+      : res.status(200).json(`Added reaction: ${req.body.reactionBody}`);
   }
 
   catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 };
@@ -93,7 +92,6 @@ async function addReaction(req, res) {
 async function deleteReaction(req, res) {
   try {
     const removedReaction = await Thought.findByIdAndUpdate(req.params.thoughtId,
-      // Not quite getting there because reactionId isn't populating.
       { $pull: { reactions: { reactionId: req.params.reactionId } } });
 
     !removedReaction

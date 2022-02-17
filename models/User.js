@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Query } = require('mongoose');
+const Thought = require('./Thought.js');
 
 const userSchema = new Schema({
   name: { type: String, trimmed: true, unique: true, required: true },
@@ -6,11 +7,9 @@ const userSchema = new Schema({
     type: String,
     unique: true,
     required: true,
-    // validate: [validEmail, 'Please enter a valid email address.'],  // could use this with a validEmail constant instead of the match object below.
     match: [/^([\w\.-]+)@([\w\.-]+)\.([a-zA-Z0-9\.]{2,6})$/, 'Please enter a valid email address.']
   },
   thoughts: [{ type: Schema.Types.ObjectId, ref: 'Thought' }],
-  // friends: [userSchema],
   friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   {
@@ -21,9 +20,13 @@ const userSchema = new Schema({
 });
 
 userSchema.virtual('friendCount').get(function() {
-  console.log(this);
   return this.friends?.length;
 });
+
+// userSchema.pre('findOneAndDelete', function(next) {
+//   Thought.deleteMany({ userId: this._id }).exec();
+//   next();
+// });
 
 const User = model('User', userSchema);
 
