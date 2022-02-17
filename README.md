@@ -26,7 +26,9 @@ Note that as there is no front-end to this application, it won't run via browser
 
 ## Tutorial Videos
 
+[Tutorial Video 1](https://user-images.githubusercontent.com/56139228/154387089-8359a8cc-fee3-48a3-8ee5-e0455fa34a81.mp4)
 
+[Tutorial Video 2](https://user-images.githubusercontent.com/56139228/154387107-8d243138-e9e6-4a69-9118-09d9d40cb5ef.mp4)
 
 ## Usage
 From the terminal, users can run node on server.js to start the local server. From there, queries can be run via Insomnia.
